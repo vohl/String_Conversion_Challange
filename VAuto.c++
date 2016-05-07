@@ -48,24 +48,29 @@ string& convertTarget(string& input){
             {
                 // Non alpha terminates the chain, need to replace the word
                 // in string
-                if(chainLength == 0)
+                switch(chainLength)
                 {
-                    // If one character, replace in string at new position
-                    input[startOfChain++] = input[i];
-                }
-                else
-                {
-                    // If word, do a conversion into proper format and replace
-                    // in string at new position
-                    stringstream ss;
-                    ss << chainLength - 1;
-                    string buffer = ss.str();
-                    for (int i = 0; i < buffer.length(); ++i)
-                    {
-                        input[startOfChain++] = buffer[i];
-                    }
-                    input[startOfChain++] = input[i - 1];
-                    input[startOfChain++] = input[i];
+                    case 0:
+                        // If one character, replace in string at new position
+                        input[startOfChain++] = input[i];
+                        break;
+                    case 1:
+                        input[startOfChain++] = input[i-1];
+                        input[startOfChain++] = input[i];
+                        break;
+                    default:
+                        // If word, do a conversion into proper format and replace
+                        // in string at new position
+                        stringstream ss;
+                        ss << chainLength - 1;
+                        string buffer = ss.str();
+                        for (int i = 0; i < buffer.length(); ++i)
+                        {
+                            input[startOfChain++] = buffer[i];
+                        }
+                        input[startOfChain++] = input[i - 1];
+                        input[startOfChain++] = input[i];
+                        break;
                 }
                 // End of chain, rest chain length
                 inChain = false;
@@ -81,14 +86,17 @@ string& convertTarget(string& input){
     }
 
     // If we exit the for loop and ended in a chain, final replacment
-    if(inChain && chainLength > 0)
+    if(inChain && chainLength)
     {
-        stringstream ss;
-        ss << chainLength - 1;
-        string buffer = ss.str();
-        for (int i = 0; i < buffer.length(); ++i)
+        if(chainLength > 1)
         {
-            input[startOfChain++] = buffer[i];
+            stringstream ss;
+            ss << chainLength - 1;
+            string buffer = ss.str();
+            for (int i = 0; i < buffer.length(); ++i)
+            {
+                input[startOfChain++] = buffer[i];
+            }
         }
         input[startOfChain++] = input[input.length() - 1];
     }
