@@ -3,7 +3,7 @@
 #include <cctype>
 #include <iterator>
 #include <iostream>
-#include <stdlib.h>
+#include <sstream>
 
 /*
   Main design of my code.
@@ -57,7 +57,13 @@ string& convertTarget(string& input){
                 {
                     // If word, do a conversion into proper format and replace
                     // in string at new position
-                    input[startOfChain++] = char(chainLength + 47);
+                    stringstream ss;
+                    ss << chainLength - 1;
+                    string buffer = ss.str();
+                    for (int i = 0; i < buffer.length(); ++i)
+                    {
+                        input[startOfChain++] = buffer[i];
+                    }
                     input[startOfChain++] = input[i - 1];
                     input[startOfChain++] = input[i];
                 }
@@ -77,7 +83,13 @@ string& convertTarget(string& input){
     // If we exit the for loop and ended in a chain, final replacment
     if(inChain && chainLength > 0)
     {
-        input[startOfChain++] = char(chainLength + 47);
+        stringstream ss;
+        ss << chainLength - 1;
+        string buffer = ss.str();
+        for (int i = 0; i < buffer.length(); ++i)
+        {
+            input[startOfChain++] = buffer[i];
+        }
         input[startOfChain++] = input[input.length() - 1];
     }
 
