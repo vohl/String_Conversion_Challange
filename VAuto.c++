@@ -6,7 +6,6 @@
 #include <sstream>
 #include <cctype>
 #include <map>
-#include <cassert>
 
 /*
   Main design of my code.
@@ -16,6 +15,10 @@
   characters in between is larger then 9 we need to fill up multiple indicies to make up
   the number i.e. 11 takes up two characters in the string.
 */
+
+// Did not allow replacement of words like "is" to "i0s" as a disign decision so I can do it woth no extra space
+
+// Not counting the hash to keep track of distinct characters :p
 
 using namespace std;
 
@@ -69,9 +72,13 @@ string& convertTarget(string& input){
                         // in string at new position
                         stringstream ss;
                         if(distinctChar[tolower(input[i - 1])] > 1)
+                        {
                             ss << numOfDistinct;
+                        }
                         else
+                        {
                             ss << numOfDistinct - 1;
+                        }
                         string buffer = ss.str();
                         for (int i = 0; i < buffer.length(); ++i)
                         {
@@ -113,9 +120,13 @@ string& convertTarget(string& input){
         {
             stringstream ss;
             if(distinctChar[tolower(input[input.length() - 1])] > 1)
+            {
                 ss << numOfDistinct;
+            }
             else
+            {
                 ss << numOfDistinct - 1;
+            }
             string buffer = ss.str();
             for (int i = 0; i < buffer.length(); ++i)
             {
@@ -141,16 +152,22 @@ string convertTarget(string&& input){
 }
 
 int main(int argc, char const *argv[]){
-    string str("Andrew Vohl");
-    convertTarget(str);
-    cout << str << endl;
-    string str2("Sue Anne Richardson Davis");
-    cout << convertTarget(str2) << endl;
-    // r-value call
-    cout << convertTarget("This Needs To WORK") << endl;
-    cout << convertTarget("This is going to be a long woooooorrrrrrrrrddddd") << endl;
-    string example("Automotive parts");
-    cout << convertTarget(example) << endl;
-    cout << convertTarget("Noow thiss issss gooing tooo be distinct. ABCDEFGHIJKLMNOPQRSTUVWXYZ") << endl;
+    // string str("Andrew Vohl");
+    // convertTarget(str);
+    // cout << str << endl;
+    // string str2("Sue Anne Richardson Davis");
+    // cout << convertTarget(str2) << endl;
+    // // r-value call
+    // cout << convertTarget("This Needs To WORK") << endl;
+    // cout << convertTarget("This is going to be a long woooooorrrrrrrrrddddd") << endl;
+    // string example("Automotive parts");
+    // cout << convertTarget(example) << endl;
+    // cout << convertTarget("Noow thiss issss gooing tooo be distinct. ABCDEFGHIJKLMNOPQRSTUVWXYZ") << endl;
+    // cout << convertTarget("") << endl;
+    // cout << convertTarget(".") << endl;
+    // cout << convertTarget(". b") << endl;
+    // cout << convertTarget("hi    123this111111") << endl;
+    // cout << convertTarget("123") << endl;
+    // cout << convertTarget("Sooooo, I believe this is a working implementation. Distinct characters taking in acount, and it's all done inplaced with no extra space.") << endl;
     return 0;
 }
